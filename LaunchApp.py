@@ -2,7 +2,7 @@
 In this script, I am learning/testing how to launch
 windows apps
 and
-android apps (usign ADB)
+android apps (using ADB)
 
 I continue to learn more about creating and using a class.
 '''
