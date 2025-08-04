@@ -11,7 +11,7 @@ import subprocess
 import time
 
 emulator = EmulatorController()
-
+print("Launching Bluestacks Instance 1 \(Sailing\)")
 subprocess.Popen(["C:\Program Files\BlueStacks_nxt\HD-Player.exe", "--instance", "Pie64_1" ])
 #wait for it to load
 print("waiting")

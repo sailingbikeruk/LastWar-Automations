@@ -10,7 +10,7 @@
 # 4. Add more error checking
 # 5. email or SMS on error
 
-
+from dotenv import load_dotenv
 import pygetwindow as gw
 import mss
 import mss.tools
@@ -21,6 +21,9 @@ import os
 from EmulatorController import EmulatorController
 import time
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # set some variables/constants
 window_title = "Sailing"
 output_dir = "E:\OneDrive\Pictures\LastWar\BotShots"
@@ -28,10 +31,10 @@ timestamp_raw = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 screenshot_filename = f"capture_tech_donations{timestamp_raw}.png"
 emulator = EmulatorController()
 status_message = "Daily screenshot uploaded successfully ✅"
-webhook_url = "https://discord.com/api/webhooks/1401570205523640410/eSuuiNiNPNd4P0Rl_6N2WxS9lbGRPlCaToTk64MBg9nY_lMIiJYu6aJHRieaeAkdLzHl"
+webhook_url = os.getenv("DISCORD_URL")
 
 # Define a function to capture a screenshot
-# I get the window in #Step 1 using getWindowsWithTitle() and pass the location to MSS
+# I get the window in #Step 1 below using getWindowsWithTitle() and pass the location to MSS
 # I am using MSS because the screen is often on a second of third monitor
 # I tiemstamp the images so when they upload its obvious what date and time they are from
 def capture_screen():
