@@ -38,6 +38,11 @@ webhook_url = os.getenv("DISCORD_URL")
 # I am using MSS because the screen is often on a second of third monitor
 # I tiemstamp the images so when they upload its obvious what date and time they are from
 def capture_screen():
+    window = gw.getWindowsWithTitle(window_title)[0]
+    print(window)
+    left, top, right, bottom = window.left, window.top, window.right, window.bottom
+    width = right - left
+    height = bottom - top
     with mss.mss() as sct:
         monitor = {
             "left": left,
@@ -80,10 +85,7 @@ os.makedirs(output_dir, exist_ok=True)
 file_path = os.path.join(output_dir, screenshot_filename)
 
 # Step 1: Get the window position usign the widnow title to identify it
-window = gw.getWindowsWithTitle(window_title)[0]
-left, top, right, bottom = window.left, window.top, window.right, window.bottom
-width = right - left
-height = bottom - top
+
 
 # Step 2: Move to the right screen inside the game itself
 if emulator.connect_device():

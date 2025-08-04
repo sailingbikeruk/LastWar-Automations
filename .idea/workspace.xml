@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="baa86794-5974-4251-9579-eb88db26a662" name="Changes" comment="changed filename">
+    <list default="true" id="baa86794-5974-4251-9579-eb88db26a662" name="Changes" comment="moved the URL to a .env file">
+      <change afterPath="$PROJECT_DIR$/capture2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LaunchApp.py" beforeDir="false" afterPath="$PROJECT_DIR$/LaunchApp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Capture_Bluestacks.py" beforeDir="false" afterPath="$PROJECT_DIR$/Capture_Bluestacks.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,6 +41,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.Capture_Bluestacks.executor": "Run",
     "Python.LaunchApp.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -94,7 +96,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754327890677</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="moved the URL to a .env file">
+      <option name="closed" value="true" />
+      <created>1754329213205</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1754329213205</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -111,6 +121,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="changed filename" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed filename" />
+    <MESSAGE value="moved the URL to a .env file" />
+    <option name="LAST_COMMIT_MESSAGE" value="moved the URL to a .env file" />
   </component>
 </project>
