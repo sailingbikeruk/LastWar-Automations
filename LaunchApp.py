@@ -7,13 +7,17 @@ android apps (using ADB)
 I continue to learn more about creating and using a class.
 '''
 from EmulatorController import EmulatorController
+import pyautogui
 import subprocess
 import time
+import pygetwindow as gw
+
+window_title="Sailing"
 
 emulator = EmulatorController()
 print("Launching Bluestacks Instance 1 \(Sailing\)")
-subprocess.Popen(["C:\Program Files\BlueStacks_nxt\HD-Player.exe", "--instance", "Pie64_1" ])
-#wait for it to load
+subprocess.Popen(["C:\Program Files\BlueStacks_nxt\HD-Player.exe", "--instance", "Pie64_1"])
+# wait for it to load
 print("waiting")
 time.sleep(10)
 # Connect ADB to Bluestacks
@@ -22,9 +26,23 @@ emulator.connect_device()
 
 try:
     print("Attempting to start Last War: Survival")
-    result=emulator.run_app("com.fun.lastwar.gp")
+    result = emulator.run_app("com.fun.lastwar.gp")
     print("App Launched")
     print(result)
 except subprocess.CalledProcessError as e:
     print("Failed to launch")
     print(e.stderr)
+
+window = gw.getWindowsWithTitle("Sailing")
+if window:
+    window[0].close()
+    time.sleep(2)
+    # Example: Click 'Don't Save' at specific screen coordinates
+    pyautogui.click(x=1100, y=562)
+
+    print(f"Window '{window_title}' closed.")
+else:
+    print(f"No window found with title: {window_title}")
+
+pyautogui.screenshot("debug_view.png")
+

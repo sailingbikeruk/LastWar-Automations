@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="baa86794-5974-4251-9579-eb88db26a662" name="Changes" comment="corrected some spelling in comments">
-      <change afterPath="$PROJECT_DIR$/autogui.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/countdown.py" afterDir="false" />
+    <list default="true" id="baa86794-5974-4251-9579-eb88db26a662" name="Changes" comment="added auto launch and started auto end. Also add a visual timer for the console">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecordScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/RecordScreen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LaunchApp.py" beforeDir="false" afterPath="$PROJECT_DIR$/LaunchApp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,6 +43,7 @@
     "Python.Capture_Bluestacks.executor": "Run",
     "Python.LaunchApp.executor": "Run",
     "Python.autogui.executor": "Run",
+    "Python.close.executor": "Run",
     "Python.countdown.executor": "Run",
     "Python.main.executor": "Run",
     "Python.pyautogui.executor": "Run",
@@ -117,7 +116,23 @@
       <option name="project" value="LOCAL" />
       <updated>1754343422048</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="corrected some spelling in comments">
+      <option name="closed" value="true" />
+      <created>1754397333591</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1754397333591</updated>
+    </task>
+    <task id="LOCAL-00008" summary="added auto launch and started auto end. Also add a visual timer for the console">
+      <option name="closed" value="true" />
+      <created>1754397408706</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1754397408706</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -136,7 +151,8 @@
     <MESSAGE value="changed filename" />
     <MESSAGE value="moved the URL to a .env file" />
     <MESSAGE value="corrected some spelling in comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="corrected some spelling in comments" />
+    <MESSAGE value="added auto launch and started auto end. Also add a visual timer for the console" />
+    <option name="LAST_COMMIT_MESSAGE" value="added auto launch and started auto end. Also add a visual timer for the console" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

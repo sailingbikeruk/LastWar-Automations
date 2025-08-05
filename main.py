@@ -15,6 +15,7 @@ from PIL import Image, ImageDraw, ImageFont
 from dotenv import load_dotenv
 import pygetwindow as gw
 import subprocess
+import pyautogui
 import mss.tools
 import requests
 import datetime
@@ -35,6 +36,7 @@ emulator = EmulatorController()
 status_message = "Daily screenshot uploaded successfully ✅"
 webhook_url = os.getenv("DISCORD_URL")
 
+#emulator function to show a countdown in the console to I can track timings
 def countdown_timer(seconds):
     for remaining in range(seconds, 0, -1):
         sys.stdout.write(f"\rSleeping... {remaining} sec remaining")
@@ -43,18 +45,22 @@ def countdown_timer(seconds):
     sys.stdout.write("\rSleep finished.                 \n")
     sys.stdout.flush()
 
+# a function to close the window when all is finished
 def close_window(window_title):
     window = gw.getWindowsWithTitle(window_title)
     if window:
         window[0].close()
+        time.sleep(2)
+        # Example: Click 'Don't Save' at specific screen coordinates
+        pyautogui.click(x=1100, y=562)
+
         print(f"Window '{window_title}' closed.")
     else:
         print(f"No window found with title: {window_title}")
 
-# Define a function to capture a screenshot
-# I get the window in #Step 1 below using getWindowsWithTitle() and pass the location to MSS
-# I am using MSS because the screen is often on a second of third monitor
-# I timestamp the images so when they upload its obvious what date and time they are from
+
+
+# A function to capture a region of the screen
 def capture_screen():
     window = gw.getWindowsWithTitle(window_title)[0]
     print(window)
@@ -192,5 +198,15 @@ upload_image()
 close_window(window_title)
 countdown_timer(2)
 
+# Locate the button (requires screenshot of button, e.g. 'close_button.png')
+location = pyautogui.locateOnScreen('Close_Sailing.png')
+
+if location:
+    # Get center of the button and click
+    center_point = pyautogui.center(location)
+    pyautogui.click(center_point)
+    print("Button clicked!")
+else:
+    print("Button not found.")
 
 
