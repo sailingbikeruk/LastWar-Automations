@@ -4,24 +4,26 @@
 # it is run in task scheduler locally
 
 #TODO
-# 1. start the program and app so they dotn have to be open 24/7 (see launcher.py)
+# 1. start the program and app so they don't have to be open 24/7 (see launcher.py)
 # 2. use a loop to get the second screen if possible rather than repeating tehe calls to functions
 # 3. find a way to ensure you are on the start screen before issuing commands and have returned there when finished
 # 4. Add more error checking
 # 5. email or SMS on error
 
+from EmulatorController import EmulatorController
+from PIL import Image, ImageDraw, ImageFont
 from dotenv import load_dotenv
 import pygetwindow as gw
-import mss
+import subprocess
 import mss.tools
-from PIL import Image, ImageDraw, ImageFont
 import requests
 import datetime
-import os
-from EmulatorController import EmulatorController
+import mss
 import time
+import os
+import sys
 
-from dotenv import load_dotenv
+# Load variable values from .env
 load_dotenv()
 
 # set some variables/constants
@@ -33,10 +35,26 @@ emulator = EmulatorController()
 status_message = "Daily screenshot uploaded successfully ✅"
 webhook_url = os.getenv("DISCORD_URL")
 
+def countdown_timer(seconds):
+    for remaining in range(seconds, 0, -1):
+        sys.stdout.write(f"\rSleeping... {remaining} sec remaining")
+        sys.stdout.flush()
+        time.sleep(1)
+    sys.stdout.write("\rSleep finished.                 \n")
+    sys.stdout.flush()
+
+def close_window(window_title):
+    window = gw.getWindowsWithTitle(window_title)
+    if window:
+        window[0].close()
+        print(f"Window '{window_title}' closed.")
+    else:
+        print(f"No window found with title: {window_title}")
+
 # Define a function to capture a screenshot
 # I get the window in #Step 1 below using getWindowsWithTitle() and pass the location to MSS
 # I am using MSS because the screen is often on a second of third monitor
-# I tiemstamp the images so when they upload its obvious what date and time they are from
+# I timestamp the images so when they upload its obvious what date and time they are from
 def capture_screen():
     window = gw.getWindowsWithTitle(window_title)[0]
     print(window)
@@ -80,61 +98,99 @@ def upload_image():
         error_msg = f"Screenshot upload failed ❌ Status: {response.status_code}"
         requests.post(webhook_url, json={"content": error_msg})
 
+def open_emulator(package_name):
+    emulator = EmulatorController()
+    print("Launching Bluestacks Instance 1 - Sailing - (func open-emulator)")
+    subprocess.Popen(["C:\Program Files\BlueStacks_nxt\HD-Player.exe", "--instance", "Pie64_1"])
+    # wait for it to load
+    print("waiting (func open-emulator)")
+    countdown_timer(15)
+    # Connect ADB to Bluestacks
+    print("connecting to emulator (func open-emulator)")
+    emulator.connect_device()
+
+    try:
+        print("Attempting to start Last War: Survival (func open-emulator)")
+        result = emulator.run_app(package_name)
+        print("App Launched (func open-emulator)")
+        print(result)
+    except subprocess.CalledProcessError as e:
+        print("Failed to launch (func open-emulator)")
+        print(e.stderr)
+
+
 # Ensure output directory exists
+print("Checking of image directory exists")
 os.makedirs(output_dir, exist_ok=True)
 file_path = os.path.join(output_dir, screenshot_filename)
 
-# Step 1: Get the window position usign the widnow title to identify it
+#Step 1: Open Bluestacks and Last War
+print("Opening emulator and starting last War (main)")
+open_emulator("com.fun.lastwar.gp")
+print("Waiting for app launch to complete (main)")
+countdown_timer(60)
 
 
-# Step 2: Move to the right screen inside the game itself
+# Step 2: connect ADB to the emulator
 if emulator.connect_device():
     print("Connected")
     # if emulator.set_resolution(1920, 1080):
     #    print("Successfully set resolution")
 
+# Step 3: send random clicks on an empty space to clear adverts
+    print("Clearing adverts")
+    for i in range(5):
+        emulator.click_button(1590,90)
+        time.sleep(0.5)
+
+# Step 4: Navigate to Alliance tech Donations
     print("Clicking Alliance Button")
     emulator.click_button(1870,760)
     time.sleep(3)
 
     print("Clicking Alliance Tech Button ")
     emulator.click_button(1100, 690)
-    time.sleep(3)
+    countdown_timer(3)
+
 
     print("Clicking Tech Donations Button")
     emulator.click_button(1180, 787)
-    time.sleep(3)
+    countdown_timer(3)
 else:
     print("Failed to connect")
 
-# Step 3: Capture the screen region using MSS
+# Step 5: Capture the screen region using MSS
 print("Capturing positions 1-5")
 capture_screen()
 
-# Step 4: Upload screenshot to Discord
+# Step 6: Upload screenshot to Discord
 print("Uploading positions 1-5")
 upload_image()
 
-#Step 6: scroll to next screen
+#Step 7: scroll to next screen
 print("Scolling to positions 6-10")
 if emulator.connect_device():
     print("Connected")
     # if emulator.set_resolution(1920, 1080):
     #    print("Successfully set resolution")
     print("Attempting to scroll down")
-    emulator.scroll_down(500,700,500,255,1000)
+    emulator.scroll_down(500,700,500,255,1100)
 
 else:
     print("Failed to connect")
 
-#Step 7: Take second capture
-time.sleep(2)
+#Step 8: Take second capture
+countdown_timer(2)
 print("Capturing positions 6-10")
 capture_screen()
 
-# Step 8: upload second image
+# Step 9: upload second image
 print("uploading positions 6-10")
 upload_image()
 
-#Step 9: Go back to base
-emulator.send_escape()
+#Step 10: close the bluestacks window
+close_window(window_title)
+countdown_timer(2)
+
+
+

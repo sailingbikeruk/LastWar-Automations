@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import pyautogui
+import autogui
 import pygetwindow as gw
 import sys
 
