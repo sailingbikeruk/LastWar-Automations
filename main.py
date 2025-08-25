@@ -182,7 +182,7 @@ capture_screen()
 
 # Step 6: Upload screenshot to Discord
 print("Uploading positions 1-5")
-#upload_image()
+upload_image()
 
 #Step 7: scroll to next screen
 print("Scolling to positions 6-10")
@@ -203,7 +203,7 @@ capture_screen()
 
 # Step 9: upload second image
 print("uploading positions 6-10")
-#upload_image()
+upload_image()
 
 '''
 I tried here to find the close button and click it but I could not get that to work 
