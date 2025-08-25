@@ -5,7 +5,7 @@
 
 #TODO
 # 1. start the program and app so they don't have to be open 24/7 (see launcher.py)
-# 2. use a loop to get the second screen if possible rather than repeating tehe calls to functions
+# 2. use a loop to get the second screen if possible rather than repeating the calls to functions
 # 3. find a way to ensure you are on the start screen before issuing commands and have returned there when finished
 # 4. Add more error checking
 # 5. email or SMS on error
@@ -14,11 +14,14 @@ from EmulatorController import EmulatorController
 from PIL import Image, ImageDraw, ImageFont
 from dotenv import load_dotenv
 import pygetwindow as gw
+import win32process
 import subprocess
 import pyautogui
 import mss.tools
 import requests
 import datetime
+import win32gui
+import psutil
 import mss
 import time
 import os
@@ -57,8 +60,6 @@ def close_window(window_title):
         print(f"Window '{window_title}' closed.")
     else:
         print(f"No window found with title: {window_title}")
-
-
 
 # A function to capture a region of the screen
 def capture_screen():
@@ -124,9 +125,19 @@ def open_emulator(package_name):
         print("Failed to launch (func open-emulator)")
         print(e.stderr)
 
+def find_pid_by_window_title(title):
+    def callback(hwnd, pid_list):
+        if win32gui.IsWindowVisible(hwnd):
+            window_title = win32gui.GetWindowText(hwnd)
+            if window_title == title:
+                _, pid = win32process.GetWindowThreadProcessId(hwnd)
+                pid_list.append(pid)
+    pid_list = []
+    win32gui.EnumWindows(callback, pid_list)
+    return pid_list
 
 # Ensure output directory exists
-print("Checking of image directory exists")
+print("Checking if image directory exists")
 os.makedirs(output_dir, exist_ok=True)
 file_path = os.path.join(output_dir, screenshot_filename)
 
@@ -171,7 +182,7 @@ capture_screen()
 
 # Step 6: Upload screenshot to Discord
 print("Uploading positions 1-5")
-upload_image()
+#upload_image()
 
 #Step 7: scroll to next screen
 print("Scolling to positions 6-10")
@@ -192,7 +203,11 @@ capture_screen()
 
 # Step 9: upload second image
 print("uploading positions 6-10")
-upload_image()
+#upload_image()
+
+'''
+I tried here to find the close button and click it but I could not get that to work 
+so moved to the next code block using PSUTILS
 
 #Step 10: close the bluestacks window
 close_window(window_title)
@@ -208,5 +223,22 @@ if location:
     print("Button clicked!")
 else:
     print("Button not found.")
+'''
+#Step 10: Close Bluestacks
+# Find PID(s) for windows with title "Sailing"
+pids = find_pid_by_window_title(window_title)
 
+# Gracefully terminate each process
+for pid in pids:
+    try:
+        proc = psutil.Process(pid)
+        print(f"Attempting graceful termination: {proc.name()} (PID: {pid})")
+        proc.terminate()  # Sends SIGTERM
+        proc.wait(timeout=5)  # Wait up to 5 seconds
+        print(f"Process {pid} terminated successfully.")
+    except psutil.TimeoutExpired:
+        print(f"Process {pid} did not terminate in time. Forcing kill.")
+        proc.kill()
+    except Exception as e:
+        print(f"Error terminating")
 
